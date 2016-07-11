@@ -1,0 +1,13 @@
+<div class="widget-content">
+    <form method="post" action="{{ path("maven_magento_bundle_shipping_send") }}">
+        <select name="provider">
+            {% for provider in providers %}
+                <option value="{{ provider }}">{{ provider|capitalize }}</option>
+            {% endfor %}
+        </select>
+        <input name="id" value="{{ id }}" type="hidden" readonly>
+        <button type="submit" class="btn btn-success">
+            {{ "maven_magento.shipping.send"|trans }}
+        </button>
+    </form>
+</div>

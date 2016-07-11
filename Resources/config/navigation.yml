@@ -1,0 +1,16 @@
+oro_menu_config:
+    items:
+        magento_shipping:
+            label:   'maven_magento.shipping.label.plural'
+            route:   'maven_magento_bundle_shipping_index'
+            display: true
+            extras:
+                routes:      ['/^maven_magento_bundle_shipping_(index|view)$/']
+                position:    60
+                description: 'maven_magento.shipping.description'
+    tree:
+        application_menu:
+            children:
+                sales_tab:
+                    children:
+                        magento_shipping: ~

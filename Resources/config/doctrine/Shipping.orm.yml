@@ -1,0 +1,66 @@
+Maven\Bundle\MagentoBundle\Entity\Shipping:
+    type: entity
+    table: maven_magento_shipping
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        magentoShipmentId:
+            type: integer
+            column: magento_shipment_id
+            nullable: true;
+        carrier:
+            type: string
+            length: 255
+            nullable: true;
+        trackingNumber:
+            type: string
+            length: 255
+            column: tracking_number
+            nullable: true;
+        isSync:
+            type: boolean
+            column: is_sync
+            nullable: true;
+        sent:
+            type: boolean
+            nullable: true;
+        createdAt:
+            type: datetime
+            column: created_at
+        updatedAt:
+            type: datetime
+            column: updated_at
+    oneToOne:
+        document:
+            targetEntity: Maven\Bundle\MagentoBundle\Entity\Document
+            inversedBy: shipping
+            nullable: true
+            joinColumn:
+                name: document_id
+                referencedColumnName: id
+    manyToOne:
+        order:
+            targetEntity: OroCRM\Bundle\MagentoBundle\Entity\Order
+            joinColumn:
+                name: order_id
+                referencedColumnName: id
+                onDelete: "SET NULL"
+    manyToMany:
+        qtyitems:
+            targetEntity: Maven\Bundle\MagentoBundle\Entity\QtyItem
+            inversedBy: shippings
+            onDelete: "SET NULL"
+            joinTable:
+                name: maven_magento_shipping_qtyitem
+                joinColumns:
+                    shipping_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    qty_item_id:
+                        referencedColumnName: id
+
+    lifecycleCallbacks:
+            prePersist: [setCreatedAtValue, setUpdatedAtValue]
+            preUpdate: [setUpdatedAtValue]

@@ -1,0 +1,10 @@
+{% macro renderPdfLink(label, value = "") %}
+    {% if value is not empty %}
+        <div class="control-group">
+            <label class="control-label">{{ label }}</label>
+            <div class="controls">
+                <div class="control-label"><a href="{{ value }}" target="_blank">{{ "maven_magento.labels.download"|trans }}</a></div>
+            </div>
+        </div>
+    {% endif %}
+{% endmacro renderPdfLink %}

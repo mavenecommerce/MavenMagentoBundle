@@ -1,0 +1,118 @@
+{% extends 'OroUIBundle:actions:view.html.twig' %}
+{% import 'OroUIBundle::macros.html.twig' as macros %}
+{% import 'OroAddressBundle::macros.html.twig' as address %}
+{% import 'MavenMagentoBundle::macrosOrder.html.twig' as Order %}
+
+{% block head_style %}
+    {{ parent() }}
+    <link href="{{ asset('bundles/mavenmagento/css/orderView.css') }}" rel="stylesheet"/>
+{% endblock head_style %}
+
+{% oro_title_set({params : {"%order.incrementId%":  entity.incrementId} }) %}
+
+{% block pageHeader %}
+    {% set breadcrumbs = {
+    'entity': entity,
+    'indexPath': path('orocrm_magento_order_index'),
+    'indexLabel': 'orocrm.magento.order.entity_plural_label'|trans,
+    'entityTitle': 'orocrm.magento.entity_number'|trans({'%entityName%': 'orocrm.magento.order.entity_label'|trans, '%entityNumber%': entity.incrementId})
+    } %}
+    {{ parent() }}
+{% endblock pageHeader %}
+
+{% block navButtons %}
+    {{ UI.button({
+        'path':  path('orocrm_magento_order_actualize', {'id': entity.id}),
+        'label': 'orocrm.magento.order.refresh_label'|trans,
+        'title': 'orocrm.magento.order.refresh_label'|trans,
+        'iCss': 'icon-refresh',
+    }) }}
+    {{ UI.button({
+        'path': path('orocrm_magento_order_actualize', {'id': entity.id}),
+        'label': 'maven_magento.order.print_label'|trans,
+        'title': 'maven_magento.order.print'|trans ~ entity.incrementId,
+        'iCss': 'icon-print',
+        'aCss': 'print-order-items'
+    }) }}
+{% endblock navButtons %}
+
+{% block content_data %}
+    {% set generalSubblocks = [] %}
+
+    {% set orderInformationWidget %}
+        {{ oro_widget_render({
+            'widgetType': 'block',
+            'url': path('orocrm_magento_order_widget_info', {id: entity.id}),
+            'title': 'orocrm.magento.order_information'|trans
+        }) }}
+    {% endset %}
+    {% set generalSubblocks = generalSubblocks|merge([{'data' : [orderInformationWidget] }]) %}
+
+    {% if entity.customer and resource_granted('orocrm_magento_customer_view') %}
+        {% set customerInformationWidget %}
+            {{ oro_widget_render({
+                'widgetType': 'block',
+                'url': path('orocrm_magento_customer_info', {id: entity.customer.id}),
+                'title': 'orocrm.magento.customer_information'|trans
+            }) }}
+        {% endset %}
+        {% set generalSubblocks = generalSubblocks|merge([{'data' : [customerInformationWidget] }]) %}
+    {% endif %}
+
+    {% set dataBlocks = [
+    {
+    'title': 'orocrm.magento.general_information'|trans,
+    'class': 'active',
+    'subblocks': generalSubblocks
+    }
+    ] %}
+
+    {% if resource_granted('orocrm_magento_cart_view') %}
+
+        {% set orderItemsWidget %}
+            {{ oro_widget_render({
+                'widgetType': 'block',
+                'url': path('orocrm_magento_order_widget_items', {id: entity.id})
+            }) }}
+            <div class="print-block">
+                {{ Order.renderTable(entity.items, 'printOrder') }}
+            </div>
+        {% endset %}
+
+        {% set dataBlocks = dataBlocks|merge([
+        {
+        'title': 'orocrm.magento.order.items.label'|trans,
+        'subblocks': [
+        {'data' : [orderItemsWidget] }
+        ]
+        }
+        ]) %}
+    {% endif %}
+
+    {% set id = 'magentoOrderView' %}
+    {% set data = {'dataBlocks': dataBlocks} %}
+    {{ parent() }}
+
+    <script>
+        require(['jquery', '/bundles/mavenmagento/js/printThis.js'],function ($, printThis) {
+            $(function () {
+                $('.print-order-items').on('click', function(e){
+                    e.preventDefault();
+
+                    $('.print-block').printThis({
+                        debug: true,
+                        importCSS: true,
+                        importStyle: true,
+                        printContainer: true,
+                        loadCSS: "{{ asset('bundles/mavenmagento/css/print.css') }}",
+                        pageTitle: "",
+                        removeInline: false,
+                        printDelay: 333,
+                        header: null,
+                        formValues: true
+                    });
+                });
+            });
+        })
+    </script>
+{% endblock content_data %}

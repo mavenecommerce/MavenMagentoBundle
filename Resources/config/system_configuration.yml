@@ -1,0 +1,202 @@
+oro_system_configuration:
+    groups:
+        maven_magento:
+            title: maven_magento.settings.groups.main.title
+        shipper:
+            title: maven_magento.settings.groups.shipper.title
+            priority: 40
+        ups_provider:
+            title: maven_magento.settings.groups.ups.title
+            priority: 50
+        fedex_provider:
+            title: maven_magento.settings.groups.fedex.title
+            priority: 50
+    fields:
+        maven_magento.ups_key:
+            data_type: string
+            type: text
+            options:
+                label: maven_magento.settings.ups.key
+                resettable: false
+                required: false
+                tooltip: maven_magento.settings.ups.tooltip
+            priority: 30
+        maven_magento.ups_user:
+            data_type: string
+            type: text
+            options:
+                label: maven_magento.settings.ups.userId
+                resettable: false
+                required: false
+            priority: 20
+        maven_magento.ups_secret:
+            data_type: string
+            type: text
+            options:
+                label: maven_magento.settings.ups.secret
+                resettable: false
+                required: false
+            priority: 10
+        maven_magento.shipper_company:
+            data_type: string
+            type: text
+            options:
+                label: maven_magento.settings.shipper.company
+                resettable: false
+                required: false
+            priority: 50
+        maven_magento.shipper_contact:
+            data_type: string
+            type: text
+            options:
+                label: maven_magento.settings.shipper.contact
+                resettable: false
+                required: true
+            priority: 50
+        maven_magento.shipper_city:
+            data_type: string
+            type: text
+            options:
+                label: maven_magento.settings.shipper.city
+                resettable: false
+                required: true
+            priority: 50
+        maven_magento.shipper_state:
+            data_type: string
+            type: text
+            options:
+                label: maven_magento.settings.shipper.state
+                resettable: false
+                required: true
+            priority: 50
+        maven_magento.shipper_country:
+            data_type: string
+            type: text
+            options:
+                label: maven_magento.settings.shipper.country
+                resettable: false
+                required: true
+            priority: 50
+        maven_magento.shipper_zip:
+            data_type: string
+            type: text
+            options:
+                label: maven_magento.settings.shipper.zip
+                resettable: false
+                required: true
+            priority: 50
+        maven_magento.shipper_phone:
+            data_type: string
+            type: text
+            options:
+                label: maven_magento.settings.shipper.phone
+                resettable: false
+                required: true
+            priority: 50
+        maven_magento.shipper_address1:
+            data_type: string
+            type: text
+            options:
+                label: maven_magento.settings.shipper.address
+                resettable: false
+                required: true
+            priority: 50
+#        maven_magento.shipper_address2:
+#            data_type: string
+#            type: text
+#            options:
+#                label: maven_magento.settings.shipper.address
+#                resettable: false
+#                required: false
+#                tooltip: maven_magento.settings.shipper.tooltip.address2
+#            priority: 49
+#        maven_magento.shipper_address3:
+#            data_type: string
+#            type: text
+#            options:
+#                label: maven_magento.settings.shipper.address
+#                resettable: false
+#                required: false
+#                tooltip: maven_magento.settings.shipper.tooltip.address3
+#            priority: 48
+        maven_magento.shipper_email:
+            data_type: string
+            type: text
+            options:
+                label: maven_magento.settings.shipper.email
+                resettable: false
+                required: true
+            priority: 50
+        maven_magento.fedex_key:
+            data_type: string
+            type: text
+            options:
+                label: maven_magento.settings.fedex.key
+                resettable: false
+                required: false
+            priority: 50
+        maven_magento.fedex_password:
+            data_type: string
+            type: text
+            options:
+                label: maven_magento.settings.fedex.password
+                resettable: false
+                required: false
+            priority: 50
+        maven_magento.fedex_account:
+            data_type: integer
+            type: text
+            options:
+                label: maven_magento.settings.fedex.account
+                resettable: false
+                required: false
+            priority: 50
+        maven_magento.fedex_meter:
+            data_type: integer
+            type: text
+            options:
+                label: maven_magento.settings.fedex.meter
+                resettable: false
+                required: false
+            priority: 50
+        maven_magento.fedex_beta:
+            data_type: boolean
+            type: oro_config_checkbox
+            options:
+                label: maven_magento.settings.fedex.beta
+                resettable: false
+                required: false
+            priority: 50
+    tree:
+        system_configuration:
+            platform:
+                children:
+                    integrations:
+                        children:
+                            maven_magento:
+                                children:
+                                    ups_provider:
+                                        children:
+                                            - maven_magento.ups_key
+                                            - maven_magento.ups_user
+                                            - maven_magento.ups_secret
+                                    fedex_provider:
+                                        children:
+                                            - maven_magento.fedex_key
+                                            - maven_magento.fedex_password
+                                            - maven_magento.fedex_account
+                                            - maven_magento.fedex_meter
+                                            - maven_magento.fedex_beta
+                                    shipper:
+                                        children:
+                                            - maven_magento.shipper_company
+                                            - maven_magento.shipper_contact
+                                            - maven_magento.shipper_city
+                                            - maven_magento.shipper_state
+                                            - maven_magento.shipper_country
+                                            - maven_magento.shipper_zip
+                                            - maven_magento.shipper_phone
+                                            - maven_magento.shipper_address1
+#                                            - maven_magento.shipper_address2
+#                                            - maven_magento.shipper_address3
+                                            - maven_magento.shipper_email

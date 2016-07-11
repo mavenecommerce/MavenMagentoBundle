@@ -1,0 +1,83 @@
+parameters:
+    maven_magento.abs_path: "%kernel.root_dir%/../web"
+    maven_magento.web_path: "/uploads/shipping"
+    #handler
+    maven_magento.delivery_handler.class: Maven\Bundle\MagentoBundle\Handler\DeliveryHandler
+    maven_magento.shipping_handler.class: Maven\Bundle\MagentoBundle\Handler\ShippingHandler
+    maven_magento.document_handler.class: Maven\Bundle\MagentoBundle\Handler\DocumentHandler
+
+    #providers
+    maven_magento.ups.class: Maven\Bundle\MagentoBundle\API\DataProvider\UPS\UPSAPI
+    maven_magento.fedex.class: Maven\Bundle\MagentoBundle\API\DataProvider\FedEx\FedExAPI
+
+    #transport
+    maven_magento.transport.soap_transport.class: Maven\Bundle\MagentoBundle\Provider\Transport\SoapTransport
+    #twig extensions
+    maven_magento.twig.label_extension.class: Maven\Bundle\MagentoBundle\Twig\LabelExtension
+
+    #entity
+    maven_magento.entity.shipping.class: Maven\Bundle\MagentoBundle\Entity\Shipping
+    maven_magento.entity.send.class: Maven\Bundle\MagentoBundle\Entity\Sent
+
+    #manager
+    maven_magento.entity.shipping_manager.class: Maven\Bundle\MagentoBundle\Entity\Manager\ShippingManager
+
+    #datagrid
+    maven_magento.datagrid.action_permission_provider.class: Maven\Bundle\MagentoBundle\Datagrid\ActionPermissionProvider
+services:
+    maven_magento.ups:
+        class: "%maven_magento.ups.class%"
+        arguments:
+            - "@oro_config.user"
+        tags:
+            - { name: maven_magento.provider }
+
+    maven_magento.fedex:
+        class: "%maven_magento.fedex.class%"
+        arguments:
+            - "@oro_config.user"
+            - "@translator.default"
+        tags:
+            - { name: maven_magento.provider }
+
+    maven_magento.delivery_handler:
+        class: "%maven_magento.delivery_handler.class%"
+        calls:
+            - [setTranslator, ['@translator.default']]
+            - [setSession, ['@session']]
+            - [setLogger, ['@logger']]
+            - [setDocumentHandler, ['@maven_magento.document_handler']]
+            - [setEntityManager, ['@doctrine.orm.default_entity_manager']]
+
+    maven_magento.shipping_handler:
+        class: "%maven_magento.shipping_handler.class%"
+        calls:
+            - [setTranslator, ['@translator.default']]
+            - [setSession, ['@session']]
+            - [setLogger, ['@logger']]
+            - [setTransport, ['@orocrm_magento.transport.soap_transport']]
+            - [setEntityManager, ['@maven_magento.entity.shipping_manager']]
+
+    maven_magento.twig.label_extension:
+        class: "%maven_magento.twig.label_extension.class%"
+        arguments:
+            - "@translator.default"
+        tags:
+            - { name: twig.extension }
+
+    maven_magento.entity.shipping_manager:
+        class: "%maven_magento.entity.shipping_manager.class%"
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+            - "%maven_magento.entity.shipping.class%"
+
+    maven_magento.datagrid.action_permission_provider:
+        class: "%maven_magento.datagrid.action_permission_provider.class%"
+        arguments:
+            - '@oro_entity_config.provider.workflow'
+
+    maven_magento.document_handler:
+        class: "%maven_magento.document_handler.class%"
+        arguments:
+            - "%maven_magento.web_path%"
+            - "%maven_magento.abs_path%"

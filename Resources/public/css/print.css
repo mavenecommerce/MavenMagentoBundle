@@ -1,0 +1,16 @@
+.print-block .printOrder {
+    margin: 2% 0;
+    width: 100%;
+    text-align: left;
+    display: inline-table;
+}
+
+.printOrder tr {
+    border: 1px solid darkgray;
+}
+.printOrder td, .printOrder th {
+    padding: 5px 10px;
+}
+.printOrder td + td, .printOrder th + th {
+    border-left: 1px solid darkgray;
+}

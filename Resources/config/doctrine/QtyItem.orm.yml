@@ -1,0 +1,23 @@
+Maven\Bundle\MagentoBundle\Entity\QtyItem:
+    type: entity
+    table: maven_magento_qtyitem
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        qty:
+            type: integer
+            nullable: true;
+    manyToOne:
+        orderItem:
+            targetEntity: OroCRM\Bundle\MagentoBundle\Entity\OrderItem
+            joinColumn:
+                onDelete: "SET NULL"
+                name: order_item_id
+                referencedColumnName: id
+    manyToMany:
+        shippings:
+            onDelete: "SET NULL"
+            targetEntity: Maven\Bundle\MagentoBundle\Entity\Shipping
+            mappedBy: qtyitems

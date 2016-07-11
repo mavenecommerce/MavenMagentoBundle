@@ -1,0 +1,2 @@
+bundles:
+    - { name: Maven\Bundle\MagentoBundle\MavenMagentoBundle, kernel: true, priority: 55 }

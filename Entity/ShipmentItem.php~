@@ -1,0 +1,122 @@
+<?php
+
+namespace Maven\Bundle\MagentoBundle\Entity;
+
+use OroCRM\Bundle\MagentoBundle\Entity\OrderItem;
+
+/**
+ * Sent
+ */
+class ShipmentItem
+{
+    /**
+     * @var int
+     */
+    private $id;
+
+    /**
+     * @var int
+     */
+    private $qty;
+
+    /**
+     * @var OrderItem
+     */
+    private $orderItem;
+
+    /**
+     * @var Shipping
+     */
+    private $shipping;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Get qty
+     *
+     * @return int
+     */
+    public function getQty()
+    {
+        return $this->qty;
+    }
+
+    /**
+     * Set qty
+     *
+     * @param int $qty
+     *
+     * @return $this
+     */
+    public function setQty($qty)
+    {
+        $this->qty = $qty;
+
+        return $this;
+    }
+
+    /**
+     * Get orderItem
+     *
+     * @return OrderItem
+     */
+    public function getOrderItem()
+    {
+        return $this->orderItem;
+    }
+
+    /**
+     * Set orderItem
+     *
+     * @param OrderItem $orderItem
+     *
+     * @return $this
+     */
+    public function setOrderItem(OrderItem $orderItem = null)
+    {
+        $this->orderItem = $orderItem;
+
+        return $this;
+    }
+
+    /**
+     * Get shipping
+     *
+     * @return Shipping
+     */
+    public function getShipping()
+    {
+        return $this->shipping;
+    }
+
+    /**
+     * Set shipping
+     *
+     * @param Shipping $shipping
+     *
+     * @return $this
+     */
+    public function setShipping(Shipping $shipping = null)
+    {
+        $this->shipping = $shipping;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return (string) $this->getId();
+    }
+}

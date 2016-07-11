@@ -1,0 +1,77 @@
+maven_magento:
+    order:
+        shipping_label: Shipping
+        title: Order
+        availability: Availability
+        print: 'Print order: #'
+        print_label: 'Print'
+        items:
+            empty: Order hasn't any items!
+    errors:
+        custom: "Error :  %value%"
+        provider:
+            not_found: Provider '%value%' not found!
+            data: 'Please provide all data for FedEx service!'
+        qty.bigger: Entered value of qty must be less or equal qty of product!
+    messages:
+        success: "Success! %value%"
+    settings:
+        groups:
+            main.title: Maven magento settings
+            ups.title: UPS settings
+            shipper.title: Shipper settings
+            fedex.title: Fedex settings
+        ups:
+            key: API key
+            userId: User id
+            secret: Password
+            tooltip: For request access key please visit the link <a href="https://www.ups.com/upsdeveloperkit">UPS</a>.
+        shipper:
+            company: Company
+            contact: Contact
+            city: City
+            state: State Code
+            country: Country Code
+            zip: ZIP
+            address: Address Line
+            tooltip.address2: Additional address line 2
+            tooltip.address3: Additional address line 3
+            email: Email
+            phone: Phone
+        fedex:
+            key: Fedex API Key
+            password: Password
+            account: Account number
+            meter: Meter number
+            beta: Use beta version
+    shipping:
+        label:
+            singular: Shipping
+            plural: Shipments
+        description: A list for shipment orders
+        carrier.label: Carrier provider
+        trackingNumber.label: Tracking Number
+        magentoShipmentId.label: Magento Shipment ID
+        isSync.label: Synchronized
+        sent.label: Sent
+        order.id.label: Order id
+        shipmentNumber: 'Shipment number # '
+        info: Shipping information
+        sync:
+            label: Sync with Magento
+            synchronized: Shipment %value% is synchronized
+        deliver:
+            label: Deliver shipment
+            provider.select: Select the deliver provider
+        send: Send shipment
+        create: Create shipment
+        created: Shipment is successful created!
+        updated: Shipment is updated!
+        pdf: Shipment details pdf
+        order.qty: Items qty in Order
+        errors:
+            overweight: "Package weight must be less that 150 LB (68 KG). You have overweight: %overweight%"
+    labels:
+        yes: Yes
+        no: No
+        download: Download

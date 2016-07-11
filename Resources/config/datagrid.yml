@@ -1,0 +1,154 @@
+datagrid:
+    maven-magento-shipping-grid:
+        extended_entity_name: Maven\Bundle\MagentoBundle\Entity\Shipping
+        acl_resource: maven_magento_bundle_shipping_view
+        source:
+            type: orm
+            query:
+                select:
+                    - s.id
+                    - so.incrementId as orderId
+                    - s.carrier
+                    - s.trackingNumber
+                    - s.isSync
+                    - s.sent
+                    - s.createdAt
+                    - s.updatedAt
+                from:
+                    - { table: Maven\Bundle\MagentoBundle\Entity\Shipping, alias: s }
+                join:
+                    left:
+                        - { join: s.order, alias: so }
+        columns:
+            orderId:
+                label:            maven_magento.shipping.order.id.label
+            carrier:
+                label:            maven_magento.shipping.carrier.label
+            trackingNumber:
+                label:            maven_magento.shipping.trackingNumber.label
+            isSync:
+                label:            maven_magento.shipping.isSync.label
+                frontend_type:    boolean
+            sent:
+                label:            maven_magento.shipping.sent.label
+                frontend_type:    boolean
+            createdAt:
+                label:            oro.ui.created_at
+                frontend_type:    datetime
+            updatedAt:
+                label:            oro.ui.updated_at
+                frontend_type:    datetime
+        sorters:
+            columns:
+            default:
+                createdAt:  DESC
+        properties:
+            id: ~
+            view_link:
+                type: url
+                route: maven_magento_bundle_shipping_view
+                params: [ id ]
+        actions:
+            view:
+                type:         navigate
+                label:        oro.grid.action.view
+                link:         view_link
+                icon:         eye-open
+                acl_resource: maven_magento_bundle_shipping_view
+                rowAction:    true
+        options:
+            entityHint: shipping
+            export: true
+            entity_pagination: true
+
+            mass_actions:
+                delete:
+                    enabled: false
+
+    maven-magento-shipping-view-grid:
+        extended_entity_name: Maven\Bundle\MagentoBundle\Entity\Shipping
+        acl_resource: maven_magento_bundle_shipping_view
+        source:
+            type: orm
+            query:
+            query:
+                select:
+                    - s.carrier
+                    - s.trackingNumber
+                    - s.magentoShipmentId
+                    - s.isSync
+                from:
+                    - { table: Maven\Bundle\MagentoBundle\Entity\Shipping, alias: s }
+                join:
+                    left:
+                        - { join: s.order, alias: so }
+        columns:
+            carrier:
+                label:            maven_magento.shipping.carrier.label
+            trackingNumber:
+                label:            maven_magento.shipping.trackingNumber.label
+            isSync:
+                label:            maven_magento.shipping.isSync.label
+                frontend_type:    boolean
+
+    magento-orderitem-grid:
+        source:
+            type: orm
+            query:
+                select:
+                    - o.id as orderId
+        columns:
+            qty:
+                label: orocrm.magento.datagrid.columns.qty
+                frontend_type: number
+            gtyShipping:
+                label: maven_magento.shipping.order.qty
+                frontend_type: number
+                editable: true
+        properties:
+            id: ~
+            orderId: ~
+        mass_actions:
+            createshipment:
+                type: createshipment
+                entity_name: "%orocrm_magento.entity.order_item.class%"
+                data_identifier: oi.id
+                icon: check
+                label: maven_magento.shipping.create
+
+    maven-shipping-items-grid:
+        source:
+            skip_acl_apply: true
+            type: orm
+            query:
+                select:
+                    - qi.id
+                    - qi.qty
+                    - oi.name
+                    - oi.qty as orderQty
+                from:
+                    - { table: MavenMagentoBundle:QtyItem , alias: qi }
+                join:
+                    left:
+                        - { join: qi.shippings, alias: s }
+                        - { join: qi.orderItem, alias: oi}
+                where:
+                    and:
+                        - s.id = :id
+            bind_parameters:
+                - id
+        columns:
+            qty:
+                label: orocrm.magento.datagrid.columns.qty
+                frontend_type: number
+            orderQty:
+                 label: maven_magento.shipping.order.qty
+                 frontend_type: number
+            name:
+                frontend_type: string
+                label: 'Name'
+        action_configuration: ['@maven_magento.datagrid.action_permission_provider', getActionPermissions]
+        options:
+            mass_actions:
+                delete:
+                    enabled: false

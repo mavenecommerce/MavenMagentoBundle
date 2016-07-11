@@ -1,0 +1,45 @@
+{% macro renderTable(items, class='')%}
+    {% import _self as builder %}
+    {% set Body %}
+        {% for item in items %}
+            <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.sku }}</td>
+                <td>{{ item.qty }}</td>
+                <td>{{ item.weight }}</td>
+                <td>{{ item.price }}</td>
+                <td></td>
+            </tr>
+        {% endfor %}
+    {% endset %}
+    {% set Head %}
+        <tr>
+            <th>{{ 'orocrm.magento.datagrid.columns.name'|trans }}</th>
+            <th>{{ 'orocrm.magento.datagrid.columns.sku'|trans }}</th>
+            <th>{{ 'orocrm.magento.datagrid.columns.qty'|trans }}</th>
+            <th>{{ 'orocrm.magento.datagrid.columns.weight'|trans }}</th>
+            <th>{{ 'orocrm.magento.datagrid.columns.price'|trans }}</th>
+            <th>{{ 'maven_magento.order.availability'|trans }}</th>
+        </tr>
+    {% endset %}
+    {{ builder.table({
+        'body' : Body,
+        'head' : Head,
+        'class': class
+    }) }}
+{% endmacro  renderTable%}
+
+{% macro table(parameters) %}
+    <table {% if parameters.class is not empty %} class="{{ parameters.class }}" {% endif %}>
+        {% if parameters.head is defined %}
+            <thead>
+                {{ parameters.head }}
+            </thead>
+        {% endif %}
+        {% if parameters.body is defined %}
+            <tbody>
+                {{ parameters.body }}
+            </tbody>
+        {% endif %}
+    </table>
+{% endmacro table %}

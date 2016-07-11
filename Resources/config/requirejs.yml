@@ -1,0 +1,4 @@
+config:
+    paths:
+        'oro/datagrid/action/sendshipment-action': 'bundles/mavenmagento/js/datagrid/action/send-shipment-action.js'
+        'oro/datagrid/action/createshipment-action': 'bundles/mavenmagento/js/datagrid/action/create-shipment-action.js'

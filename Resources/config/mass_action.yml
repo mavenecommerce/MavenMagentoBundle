@@ -1,0 +1,19 @@
+parameters:
+    #mass action
+    maven_magento.mass_action.create_shipment.class: Maven\Bundle\MagentoBundle\Datagrid\Extension\MassAction\Actions\CreateShipmentAction
+
+    #handler
+    maven_magento.mass_action.create_shipment_handler.class: Maven\Bundle\MagentoBundle\Datagrid\Extension\MassAction\CreateShipmentActionHandler
+services:
+    maven_magento.mass_action.create_shipment:
+        class: "%maven_magento.mass_action.create_shipment.class%"
+        scope: prototype
+        tags:
+            - { name: oro_datagrid.extension.mass_action.type, type: createshipment }
+
+    maven_magento.mass_action.create_shipment_handler:
+        class: "%maven_magento.mass_action.create_shipment_handler.class%"
+        arguments:
+            - "@doctrine.orm.default_entity_manager"
+            - "@oro_security.acl_helper"
+            - "@translator.default"

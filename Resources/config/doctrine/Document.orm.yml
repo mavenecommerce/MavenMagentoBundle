@@ -1,0 +1,23 @@
+Maven\Bundle\MagentoBundle\Entity\Document:
+    type: entity
+    table: maven_magento_document
+    id:
+        id:
+            type: integer
+            generator: { strategy: AUTO }
+    fields:
+        name:
+            type: string
+            length: 255
+        path:
+            type: string
+            length: 255
+        createdAt:
+            type: datetime
+            column: created_at
+    oneToOne:
+        shipping:
+            targetEntity: Maven\Bundle\MagentoBundle\Entity\Shipping
+            mappedBy: document
+    lifecycleCallbacks:
+            prePersist: [setCreatedAtValue]
