@@ -11,6 +11,7 @@ At now provided:
 
 Installation
 =======
+
 Add this repository to repositories section in your composer.json file:
 ```JSON
     "repositories" : [
