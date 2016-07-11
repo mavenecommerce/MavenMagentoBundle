@@ -12,9 +12,15 @@ matrix:
 before_script:
   - wget https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
   - wget https://phar.phpunit.de/phpcpd.phar
-  - wget https://static.phpmd.org/php/latest/phpmd.phar
+  ## PHP Mess Detector
+  - pear config-set preferred_state beta
+  - printf "\n" | pecl install imagick
+  - pear channel-discover pear.phpmd.org
+  - pear channel-discover pear.pdepend.org
+  - pear install --alldeps phpmd/PHP_PMD
+  - phpenv rehash
 
 script:
  - php phpcs.phar --encoding=utf-8 --extensions=php --standard=psr2 --ignore=vendor .
  - php phpcpd.phar --min-lines 25 --verbose --exclude vendor .
- - php phpmd.phar . text  codesize, controversial, design, naming, unusedcode
+ - phpmd . text  codesize, controversial, design, naming, unusedcode
