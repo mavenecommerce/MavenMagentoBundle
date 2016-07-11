@@ -6,7 +6,7 @@ This bundle provide extended functional for OroCRMMagentoBundle.
 At now provided:
   1. Creating shipment from Oro admin. User can put different value of the qty for order items, but not bigger that value qty in order.
   2. Send shipment with delivered service api:
-  -   FedEx
+    -  FedEx
   3. Sync sent shipment with magento
 
 Installation
